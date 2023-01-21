@@ -7,20 +7,29 @@ router.route('/').get((req, res) => {
         .then((events) => res.json(events))
         .catch((err) => res.status(400).json('Error: ' + err));
 });
+//return all events that is made by a certain user
+router.route('/:userEmail').get((req, res) => {
+    const userEmail = req.params.userEmail;
+    Event.find({ userEmail: userEmail })
+        .then((events) => res.json(events))
+        .catch((err) => res.status(400).json('Error: ' + err));
+});
 router.route('/add').post((req, res) => {
     const eventname = req.body.eventname;
-    const username = req.body.username;
+    const userID = req.body.userID;
     const description = req.body.description;
     const datetime = Date.parse(req.body.datetime);
     const duration = Number(req.body.duration);
     const location = req.body.location;
+    const attendingUsers = [];
     const newEvent = new Event({
         eventname,
-        username,
+        userID,
         description,
         datetime,
         duration,
-        location
+        location,
+        attendingUsers
     });
     newEvent.save()
         .then(() => res.json('Event Added!'))
