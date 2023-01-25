@@ -2,13 +2,6 @@ import express, {Request, Response, Router} from 'express';
 const router = require('express').Router();
 let User = require('../models/user.model');
 
-router.route('/').get( (req: Request, res: Response) => {
-  console.log('received');
-  User.find()
-    .then((users: typeof User[]) => res.json(users))
-    .catch((err: Error) => res.status(400).json('Error: ' + err))
-});
-
 router.route('/:id').get((req: Request, res: Response) => {
   const id = req.params.id;
   if(typeof id !== "string") {

@@ -12,7 +12,6 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     interests: [String],
-    attendingEvents: [String]
 }, {
     timestamps: true,
 });
