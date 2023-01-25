@@ -42,10 +42,19 @@ router.route('/delete/:eventID').delete((req, res) => {
         res.status(400).json('Error: ' + err);
     });
 });
-router.route('/add/:eventID').post((req, res) => {
+router.route('/addUser/:eventID').post((req, res) => {
     const eventID = req.params.eventID;
+    console.log(eventID);
     const userEmail = req.body.email;
     Event.findByIdAndUpdate(eventID, { '$push': { attendingUsers: userEmail } })
+        .then(() => res.json('User added to event ' + eventID))
+        .catch((err) => res.status(400).json('Error: ' + err));
+});
+router.route('/removeUser/:eventID').post((req, res) => {
+    const eventID = req.params.eventID;
+    console.log(eventID);
+    const userEmail = req.body.email;
+    Event.findByIdAndUpdate(eventID, { '$pull': { attendingUsers: userEmail } })
         .then(() => res.json('User added to event ' + eventID))
         .catch((err) => res.status(400).json('Error: ' + err));
 });
